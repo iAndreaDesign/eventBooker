@@ -6,11 +6,11 @@ import { EventDetailsPageComponent } from './pages/event-details-page/event-deta
 const routes: Routes = [
   {
     path: '',
-    component: BillboardPageComponent
-  },
-  {
-    path: 'details',
-    component: EventDetailsPageComponent
+    children: [
+      { path: '', component: BillboardPageComponent },
+      { path: 'details/:id', component: EventDetailsPageComponent },
+      { path: '**', redirectTo: '' }
+    ]
   }
 ];
 
