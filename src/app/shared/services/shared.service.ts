@@ -13,6 +13,11 @@ export class SharedService {
   private myCart = new BehaviorSubject<cart[]>([])
   public myCart$ = this.myCart.asObservable();
 
+  constructor() {
+    this.loadLocalStorage();
+    console.log("shared service")
+  }
+
   addEvent(eventDetail: EventsDetails, session: Session) {
     if(session && eventDetail) {
       //comprobamos si esta available
@@ -28,6 +33,7 @@ export class SharedService {
           number += 1;
           sessionMod.quantity = number.toString();
           this.myCart.next(this.cartList);
+          this.sharedSessionStorage();
         } else {
           //Si no está añadimos el objeto
           this.cartList!.push( {
@@ -36,6 +42,7 @@ export class SharedService {
             quantity: "1"
           } );
           this.myCart.next(this.cartList);
+          this.sharedSessionStorage();
         }
       } else console.log("No quedan más tickets")
     }
@@ -56,6 +63,7 @@ export class SharedService {
         else {
           sessionMod.quantity = number.toString();
           this.myCart.next(this.cartList);
+          this.sharedSessionStorage();
         }
       }
     }
@@ -66,6 +74,7 @@ export class SharedService {
       return s.session.date != session.date;
     });
     this.myCart.next(this.cartList);
+    this.sharedSessionStorage();
   }
 
   checkNumber(number: string) {
@@ -75,4 +84,16 @@ export class SharedService {
         return -1;
     }
   }
+
+  private sharedSessionStorage() {
+    sessionStorage.setItem('cart', JSON.stringify(this.cartList));
+  }
+
+  public loadLocalStorage() {
+    if(sessionStorage.getItem('cart')) {
+      this.cartList = JSON.parse(sessionStorage.getItem('cart')!);
+      this.myCart.next(this.cartList);
+    }
+  }
+
 }

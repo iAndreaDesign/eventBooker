@@ -6,7 +6,7 @@ import { Events } from '../interfaces/events.interface';
 
 @Injectable({providedIn: 'root'})
 export class EventsService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private baseUrl: string = 'http://localhost:3000';
 
