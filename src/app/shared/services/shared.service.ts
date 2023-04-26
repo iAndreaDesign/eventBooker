@@ -52,7 +52,7 @@ export class SharedService {
     if(session && eventDetail) {
       //Comprobamos si ya está en la lista por el session date
       let sessionMod = this.cartList.find( s => {
-        return s.session.date == session.date;
+        return s.event.id == eventDetail.id;
       })
 
       //Si ya está en la lista solo reducimos su cantidad

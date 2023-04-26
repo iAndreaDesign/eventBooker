@@ -6,8 +6,7 @@ import { EventCardComponent } from '../../components/event-card/event-card.compo
 @Component({
   selector: 'app-billboard-page',
   templateUrl: './billboard-page.component.html',
-  styles: [
-  ]
+  styles: []
 })
 export class BillboardPageComponent implements OnInit {
 

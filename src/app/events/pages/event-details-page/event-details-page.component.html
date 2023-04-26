@@ -1,18 +1,21 @@
-<div class="eventDetailsPage">
+<div class="eventDetailsPage-container">
   <div class="eventDetailsPage-header">
     <div *ngIf="eventDetail as event" class="card" style="border: none">
       <img [src]="event.image" class="card-img-top" [alt]="event.title" style="max-height: 200px; object-fit: cover;">
-      <div class="card-body" style="display: flex; justify-content: space-between;;">
+      <div class="card-body container" style="display: flex; justify-content: space-between;;">
         <h5 class="card-title">{{ event.title }}</h5>
         <button class="btn btn-primary" routerLink=".."> Volver </button>
       </div>
     </div>
   </div>
 
-  <div class="eventDetailsPage-content col-xs-12 col-md-6">
-    <event-list [eventDetail]="eventDetail!" ></event-list>
-    <cart></cart>
+  <div class="eventDetailsPage-content container">
+    <div clas="col-xs-12 col-md-6">
+      <event-list [eventDetail]="eventDetail!" ></event-list>
+      <cart></cart>
+    </div>
   </div>
+
 </div>
 
 

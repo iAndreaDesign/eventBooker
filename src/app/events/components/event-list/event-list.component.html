@@ -1,16 +1,27 @@
-
-<!--TO DO a table-->
 <div *ngIf="eventDetail as event">
-  <ul class="list-group">
-    <li *ngFor="let session of event.sessions" class="list-group-item d-flex justify-content-between align-items-center">
-      <span *ngIf="session.date">Fecha: {{ session.date | date:'shortDate' }}</span>
-      <span *ngIf="session.availability"> Disponibilidad: {{ session.availability }}</span>
-      <div class="list-gorup-item-buttons" styles="color=black">
-        <button class="btn btn btn-outline-primary" (click)="addToCart(event, session)">+</button>
-        <span *ngIf="session.availability" mstyle="margin: 0 1rem">{{ session.availability }}</span>
-        <button class="btn btn btn-outline-primary" (click)="removeFromCart(event, session)">-</button>
-      </div>
-    </li>
-  </ul>
+  <table class="table table-striped table-hover" style="text-align: center">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Disponibilidad</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let session of event.sessions; let i = index">
+        <th>{{ i+1 }}</th>
+        <td *ngIf="session.date">{{ session.date | date:'shortDate' }}</td>
+        <td  *ngIf="session.availability">{{ session.availability }}</td>
+        <td>
+          <div class="input-group input-group-sm" style="justify-content: flex-end;">
+            <button class="btn btn-outline-secondary" (click)="removeFromCart(event, session)">-</button>
+            <input type="text" class="form-control" [value]="session.availability" style="max-width: 2.5rem; text-align: center;">
+            <button class="btn btn-outline-secondary" (click)="addToCart(event, session)">+</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
