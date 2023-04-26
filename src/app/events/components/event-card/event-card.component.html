@@ -3,7 +3,7 @@
     <h5 class="card-title"> {{ event.title }} </h5>
     <p class="card-text">{{ event.subtitle }}</p>
   </div>
-  <img [src]="event.image" class="card-img-top" alt="">
+  <img [src]="event.image" class="card-img-top" [alt]="event.title">
   <div class="card-body">
     <p class="text-body-secondary">{{ event.startDate | date }} - {{ event.endDate | date }}</p>
     <p class="card-text" [innerHTML]="event.description"></p>
