@@ -3,21 +3,23 @@ import { CommonModule } from '@angular/common';
 
 import { EventsRoutingModule } from './events-routing.module';
 import { EventListComponent } from './components/event-list/event-list.component';
-import { EventDetailComponent } from './components/event-detail/event-detail.component';
 import { BillboardPageComponent } from './pages/billboard-page/billboard-page.component';
 import { EventDetailsPageComponent } from './pages/event-details-page/event-details-page.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { EventCardComponent } from './components/event-card/event-card.component';
 
 
 @NgModule({
   declarations: [
     EventListComponent,
-    EventDetailComponent,
     BillboardPageComponent,
     EventDetailsPageComponent,
+    EventCardComponent
   ],
   imports: [
     CommonModule,
-    EventsRoutingModule
+    EventsRoutingModule,
+    BrowserModule
   ]
 })
 export class EventsModule { }

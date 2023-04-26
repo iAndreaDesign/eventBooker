@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CartComponent } from './cart/cart.component';
 import { HeaderComponent } from './header/header.component';
 import { Error404PageComponent } from './error404-page/error404-page.component';
+import { AppRoutingModule } from '../app-routing.module';
 
 
 
@@ -13,7 +14,8 @@ import { Error404PageComponent } from './error404-page/error404-page.component';
     Error404PageComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    AppRoutingModule
   ],
   exports: [
     CartComponent,

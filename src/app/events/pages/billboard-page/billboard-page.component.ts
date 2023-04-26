@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Events } from '../../interfaces/events.interface';
 import { EventsService } from '../../services/events.service';
+import { EventCardComponent } from '../../components/event-card/event-card.component';
 
 @Component({
   selector: 'app-billboard-page',

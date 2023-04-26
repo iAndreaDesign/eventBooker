@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from './shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { EventsModule } from './events/events.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     NgbModule,
     SharedModule,
+    EventsModule,
     HttpClientModule
   ],
   providers: [],
