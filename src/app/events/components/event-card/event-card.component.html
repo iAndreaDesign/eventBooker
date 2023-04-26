@@ -5,7 +5,7 @@
   </div>
   <img [src]="event.image" class="card-img-top" [alt]="event.title">
   <div class="card-body">
-    <p class="text-body-secondary">{{ event.startDate | date }} - {{ event.endDate | date }}</p>
+    <p class="text-body-secondary">{{ event.startDate | date:'shortDate' }} - {{ event.endDate | date:'shortDate' }}</p>
     <p class="card-text" [innerHTML]="event.description"></p>
     <div class="d-grid gap-2">
       <button class="btn btn-primary" type="button" [routerLink]="['details', event.id]" >Comprar</button>

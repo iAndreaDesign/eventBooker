@@ -7,6 +7,7 @@ import { BillboardPageComponent } from './pages/billboard-page/billboard-page.co
 import { EventDetailsPageComponent } from './pages/event-details-page/event-details-page.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { EventCardComponent } from './components/event-card/event-card.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { EventCardComponent } from './components/event-card/event-card.component
   imports: [
     CommonModule,
     EventsRoutingModule,
-    BrowserModule
+    BrowserModule,
+    SharedModule
   ]
 })
 export class EventsModule { }

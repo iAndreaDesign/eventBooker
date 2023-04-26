@@ -1,3 +1,16 @@
-<ul *ngIf="eventDetail as event" class="list-group list-group-flush">
-  <li class="list-group-item"> {{ event.title }} </li>
-</ul>
+
+<!--TO DO a table-->
+<div *ngIf="eventDetail as event">
+  <ul class="list-group">
+    <li *ngFor="let session of event.sessions" class="list-group-item d-flex justify-content-between align-items-center">
+      <span *ngIf="session.date">Fecha: {{ session.date | date:'shortDate' }}</span>
+      <span *ngIf="session.availability"> Disponibilidad: {{ session.availability }}</span>
+      <div class="list-gorup-item-buttons" styles="color=black">
+        <button class="btn btn btn-outline-primary" (click)="addToCart(event, session)">+</button>
+        <span *ngIf="session.availability" mstyle="margin: 0 1rem">{{ session.availability }}</span>
+        <button class="btn btn btn-outline-primary" (click)="removeFromCart(event, session)">-</button>
+      </div>
+    </li>
+  </ul>
+</div>
+

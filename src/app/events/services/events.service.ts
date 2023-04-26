@@ -18,6 +18,4 @@ export class EventsService {
     return this.http.get<EventsDetails>(`${ this.baseUrl }/event-details/${termino}`)
       .pipe( catchError( () => of(undefined)))
   }
-
-
 }

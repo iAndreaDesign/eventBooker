@@ -1,1 +1,1 @@
-<p>cart works!</p>
+<span *ngFor="let session of myCart$ | async"> {{ session.quantity | json }}</span>

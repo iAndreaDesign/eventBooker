@@ -13,14 +13,12 @@ import { switchMap } from 'rxjs';
 export class EventDetailsPageComponent implements OnInit {
 
   public eventDetail?: EventsDetails;
+  public availability: string = "0";
+  public eventsSelected: string = "0";
 
   constructor( private eventService: EventsService, private route: ActivatedRoute, private router: Router ) {}
 
   ngOnInit(): void {
-    //this.route.queryParams.subscribe(params => {
-    //  this.eventService.getEventInfo(params['id'] || null).subscribe( event => this.eventDetail = event)
-    //});
-
     this.route.params
       .pipe(
         switchMap( ({id}) => this.eventService.getEventInfo(id))
@@ -31,5 +29,4 @@ export class EventDetailsPageComponent implements OnInit {
         return this.eventDetail = eventDetail;
       })
   }
-
 }
