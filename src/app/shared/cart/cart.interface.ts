@@ -2,6 +2,11 @@ import { EventsDetails, Session } from "src/app/events/interfaces/events-details
 
 export interface cart {
   event:    EventsDetails;
-  session:  Session;
-  quantity: string;
+  session:  cartSession[];
+}
+
+export interface cartSession {
+  date:         string;
+  availability: string;
+  quantity:     string;
 }

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { EventsDetails, Session } from 'src/app/events/interfaces/events-details.interface';
-import { cart } from '../cart/cart.interface';
+import { cart, cartSession } from '../cart/cart.interface';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,74 +16,144 @@ export class SharedService {
 
   constructor() {
     this.loadLocalStorage();
-    console.log("shared service")
   }
 
-  addEvent(eventDetail: EventsDetails, session: Session) {
-    if(session && eventDetail) {
-      //comprobamos si esta available
-      if(this.checkNumber(session.availability) > 0) {
-        //Comprobamos si ya está en la lista por el session date
-        let sessionMod = this.cartList.find( s => {
-          return s.session.date == session.date;
-        })
-
-        //Si ya está en la lista solo incrementamos su cantidad
-        if(sessionMod) {
-          let number = this.checkNumber(sessionMod.quantity);
-          number += 1;
-          sessionMod.quantity = number.toString();
-          this.myCart.next(this.cartList);
-          this.sharedSessionStorage();
-        } else {
-          //Si no está añadimos el objeto
-          this.cartList!.push( {
-            event: eventDetail,
-            session: session,
-            quantity: "1"
-          } );
-          this.myCart.next(this.cartList);
-          this.sharedSessionStorage();
-        }
-      } else console.log("No quedan más tickets")
-    }
-  }
-
-  removeSession(eventDetail: EventsDetails, session: Session) {
-    if(session && eventDetail) {
-      //Comprobamos si ya está en la lista por el session date
-      let sessionMod = this.cartList.find( s => {
-        return s.event.id == eventDetail.id;
-      })
-
-      //Si ya está en la lista solo reducimos su cantidad
-      if(sessionMod) {
-        let number = this.checkNumber(sessionMod.quantity);
-        number -= 1;
-        if(number == 0) this.removeEvent(session);
-        else {
-          sessionMod.quantity = number.toString();
-          this.myCart.next(this.cartList);
-          this.sharedSessionStorage();
-        }
-      }
-    }
-  }
-
-  removeEvent(session: Session) {
-    this.cartList = this.cartList.filter( s => {
-      return s.session.date != session.date;
-    });
-    this.myCart.next(this.cartList);
-    this.sharedSessionStorage();
-  }
-
-  checkNumber(number: string) {
+  public checkNumber(number: string) {
     if(!isNaN(Number(number))){
       return Number(number);
     } else{
         return -1;
     }
+  }
+
+  public checkQuantity(eventDetail: EventsDetails, session: Session) {
+    return this.cartList!.find( e => {
+      if(e.event.id === eventDetail.id) {
+        e.session.find( s => {
+          if(s.date === session.date) {
+            return this.checkNumber(s.quantity).toString()
+          } else return 0
+        })
+      }
+    });
+  }
+
+  public removeSessionFromList(eventDetail: EventsDetails, session: Session) {
+    this.cartList!.filter( e => {
+      e.session = e.session.filter( s =>
+        s.date != session.date
+      )
+    });
+
+    //Check if there is sessions
+    this.cartList!.find(e => {
+      if(!(e.session.length > 0)) this.removeEventFromCart(eventDetail)
+    })
+
+    this.updateCartList();
+  }
+
+  public reduceAvailabilityFromSession(eventDetail: EventsDetails, session: Session) {
+    this.cartList!.find( e => {
+      if(e.event.id === eventDetail.id) {
+        e.session.find( s => {
+          if(s.date === session.date) {
+            if(((this.checkNumber(s.quantity)) -1) > 0) {
+              s.quantity = ((this.checkNumber(s.quantity)) - 1).toString();
+            } else this.removeSessionFromList(eventDetail, session);
+          }
+        })
+      }
+    });
+
+    this.updateCartList();
+  }
+
+  public addToCart(eventDetail: EventsDetails, session: Session) {
+    if(session && eventDetail) {
+      //Check if the session is available
+      if((this.checkNumber(session.availability)) > 0) {
+        //Check if the event is already on the cartList
+        let isEvent = this.cartList.find( e => {
+          return e.event.id === eventDetail.id
+        })
+
+        if(isEvent) {
+          //Check if the session is already in the cartList
+          let isSession = this.cartList.find( e => {
+            return e.session.find( s => {
+              return s.date === session.date
+            })
+          })
+          if(isSession) {
+            //The session is already in it, then increment the quantity
+            this.incrementQuantityOfSession(eventDetail, session);
+          } else {
+            //The session is not in it, then add to the event array on the cartList
+            this.addSessionToList(eventDetail, session);
+          }
+        } else {
+          //The event is not in it, then add it to the cartList
+          this.addEventToCart(eventDetail, session);
+        }
+      } else {
+        //TODO: Error message when is not availability
+        console.log("No quedan tickets")
+      }
+    }
+  }
+
+  private addEventToCart(eventDetail: EventsDetails, session: Session) {
+    console.log("añadimos nuevo")
+    this.cartList!.push( {
+      event: eventDetail,
+      session: [
+        {
+          date: session.date,
+          availability: session.availability,
+          quantity: "1"
+        }
+      ]
+    } );
+    this.updateCartList();
+  }
+
+  private removeEventFromCart(eventDetail: EventsDetails) {
+    this.cartList = this.cartList!.filter( e => {
+      return e.event.id != eventDetail.id
+    })
+    this.updateCartList();
+  }
+
+  private incrementQuantityOfSession(eventDetail: EventsDetails, session: Session) {
+    this.cartList!.find( e => {
+      if(e.event.id === eventDetail.id) {
+        e.session.find( s => {
+          if(s.date === session.date) {
+            s.quantity = ((this.checkNumber(s.quantity)) + 1).toString();
+          }
+        })
+      }
+    });
+    this.updateCartList();
+  }
+
+  private addSessionToList(eventDetail: EventsDetails, session: Session) {
+    this.cartList!.find( e => {
+      if(e.event.id === eventDetail.id) {
+        e.session.push({
+          date: session.date,
+          availability: session.availability,
+          quantity: "1"
+        });
+      }
+    });
+    this.updateCartList();
+  }
+
+  private updateCartList() {
+    this.myCart.next(this.cartList);
+    this.sharedSessionStorage();
   }
 
   private sharedSessionStorage() {

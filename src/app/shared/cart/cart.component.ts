@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../services/shared.service';
-import { Session } from 'src/app/events/interfaces/events-details.interface';
+import { EventsDetails, Session } from 'src/app/events/interfaces/events-details.interface';
 
 @Component({
   selector: 'cart',
@@ -14,8 +14,8 @@ export class CartComponent {
 
   constructor(private sharedService: SharedService) { }
 
-  deleteFromCart(session: Session) {
-    return this.sharedService.removeEvent(session);
+  removeSessionFromList(eventDetail: EventsDetails, session: Session) {
+    return this.sharedService.removeSessionFromList(eventDetail, session);
   }
 
 }
