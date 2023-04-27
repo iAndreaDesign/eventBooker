@@ -13,11 +13,10 @@
       <tr *ngFor="let session of event.sessions; let i = index">
         <th>{{ i+1 }}</th>
         <td *ngIf="session.date">{{ session.date | date:'shortDate' }}</td>
-        <td  *ngIf="session.availability">{{ session.availability }}</td>
+        <td *ngIf="session.availability">{{ session.availability }}</td>
         <td>
           <div class="input-group input-group-sm" style="justify-content: flex-end;">
             <button class="btn btn-outline-secondary" (click)="reduceAvailabilityFromSession(event, session)">-</button>
-            <input type="text" class="form-control" [value]="session.availability" style="max-width: 2.5rem; text-align: center;">
             <button class="btn btn-outline-secondary" (click)="addToCart(event, session)">+</button>
           </div>
         </td>

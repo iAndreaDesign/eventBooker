@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { EventsDetails, Session } from '../../interfaces/events-details.interface';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'event-list',

@@ -130,7 +130,10 @@ export class SharedService {
       if(e.event.id === eventDetail.id) {
         e.session.find( s => {
           if(s.date === session.date) {
-            s.quantity = ((this.checkNumber(s.quantity)) + 1).toString();
+            //Check if the quantity is lower of the avaialbility of this session
+            if(s.quantity < session.availability) {
+              s.quantity = ((this.checkNumber(s.quantity)) + 1).toString();
+            }
           }
         })
       }
